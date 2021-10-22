@@ -20,13 +20,14 @@ buildscript {
 
 plugins {
     id("org.ajoberstar.grgit") version("3.1.1")
+    id("com.palantir.git-version") version("0.12.3")
 }
 
 apply plugin: 'forge'
 apply plugin: 'idea'
 
 
-version = "1.7.10" + "-" + "1.1.2"
+version = "1.7.10" + "-" + gitVersion()
 group= "com.dyonovan.tcnodetracker"
 archivesBaseName = "tcnodetracker"
 
@@ -74,6 +75,7 @@ processResources
     }
 }
 
+// Make sure the player name in dev is constant. This keeps Thaumcraft progress between game restarts
 runClient {
     def playerUserName = System.env.PLAYER_USER_NAME
     if (playerUserName == null)  {
