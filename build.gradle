@@ -26,19 +26,26 @@ plugins {
 apply plugin: 'forge'
 apply plugin: 'idea'
 
-
-version = "1.7.10" + "-" + gitVersion()
-group= "com.dyonovan.tcnodetracker"
-archivesBaseName = "tcnodetracker"
+idea {
+    module {
+        inheritOutputDirs = true
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+version = minecraftVersion + "-" + gitVersion()
+group = modGroup
+archivesBaseName = modId
+
 minecraft {
-    version = "1.7.10" + "-" + "10.13.4.1614" + "-" + "1.7.10"
+    version = minecraftVersion + "-" + forgeVersion + "-" + minecraftVersion
 
     replaceIn "Constants.java"
-    replace "@VERSION@", "1.1.2"
+    replace "GRADLETOKEN_VERSION", versionDetails().lastTag
 
     runDir = "eclipse"
 }
