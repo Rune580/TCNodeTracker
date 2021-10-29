@@ -43,11 +43,12 @@ archivesBaseName = modId
 
 minecraft {
     version = minecraftVersion + "-" + forgeVersion + "-" + minecraftVersion
+    runDir = "run"
 
-    replaceIn "Constants.java"
-    replace "GRADLETOKEN_VERSION", versionDetails().lastTag
-
-    runDir = "eclipse"
+    if (replaceGradleTokenInFile && gradleToken) {
+        replaceIn replaceGradleTokenInFile
+        replace gradleToken, versionDetails().lastTag
+    }
 }
 
 repositories {
