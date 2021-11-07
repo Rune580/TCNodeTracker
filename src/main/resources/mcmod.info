@@ -1,10 +1,10 @@
 [
 {
-  "modid": "tcnodetracker",
-  "name": "TC Node Tracker",
+  "modid": "${modId}",
+  "name": "${modName}",
   "description": "Tracks scanned nodes for Thaumcraft",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "version": "${modVersion}",
+  "mcversion": "${minecraftVersion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["Dyonovan"],
