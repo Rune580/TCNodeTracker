@@ -18,12 +18,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class JsonUtils {
-
-    private static Logger LOGGER = LogManager.getLogger("TCNodeTracker");
 
     private static boolean needsSaving = false;
 
@@ -35,17 +31,18 @@ public class JsonUtils {
     }
 
     private static class InstantDeserializer implements JsonDeserializer<Instant> {
+        @Override
         public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
             try {
                 return DateTimeFormatter.ISO_INSTANT.parse(json.getAsString(), Instant::from);
-            } catch (DateTimeParseException e) {
+            } catch (DateTimeParseException ignored) {
                 needsSaving = true;
                 try {
                     return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
                             .parse(json.getAsString(), Instant::from);
-                } catch (DateTimeParseException e2) {
-                    LOGGER.warn("Could not parse saved datetime: " + json);
+                } catch (DateTimeParseException ignored2) {
+                    TCNodeTracker.LOGGER.warn("Could not parse saved datetime: " + json);
                     // Give up without throwing
                     return Instant.now();
                 }
