@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings("unused")
 @Mod(
@@ -32,6 +34,7 @@ import net.minecraftforge.common.MinecraftForge;
         acceptableRemoteVersions = "*")
 public class TCNodeTracker {
 
+    public static Logger LOGGER = LogManager.getLogger(Constants.MODID);
     public static String hostName;
     public static ArrayList<NodeList> nodelist = new ArrayList<>();
     public static boolean doGui = false;
