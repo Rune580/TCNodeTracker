@@ -1,8 +1,12 @@
 package com.dyonovan.tcnodetracker.lib;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class AspectLoc {
 
@@ -10,14 +14,18 @@ public class AspectLoc {
     public int hasAer, hasOrdo, hasTerra, hasPerdito, hasIgnis, hasAqua;
     public String type, mod;
     public HashMap<String, Integer> compound;
-    public Date date;
+    public final Instant date;
+    public final String formattedDate;
+
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(Locale.getDefault());
 
     public AspectLoc(
             int x,
             int y,
             int z,
             int dimID,
-            Date date,
+            Instant date,
             int distance,
             String type,
             String mod,
@@ -43,6 +51,12 @@ public class AspectLoc {
         this.hasPerdito = hasPerdito;
         this.hasTerra = hasTerra;
         this.compound = compound;
+
+        if (date != null) {
+            formattedDate = date.atZone(Clock.systemDefaultZone().getZone()).format(DATE_FORMATTER);
+        } else {
+            formattedDate = "";
+        }
     }
 
     public static Comparator<AspectLoc> getDistComparator() {

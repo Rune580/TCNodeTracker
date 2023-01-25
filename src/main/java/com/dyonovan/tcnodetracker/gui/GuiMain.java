@@ -5,7 +5,6 @@ import com.dyonovan.tcnodetracker.bindings.KeyBindings;
 import com.dyonovan.tcnodetracker.lib.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -432,7 +431,7 @@ public class GuiMain extends GuiScreen {
             } else if (isInBounds(x, y, start + 2, l - 5, start + 40, l + 8)) {
                 List<String> toolTip = new ArrayList<>();
                 toolTip.add("\u00a7" + Integer.toHexString(2) + "Last Scanned");
-                if (a.date != null) toolTip.add(new SimpleDateFormat("HH:mm:ss yyyy.MM.dd").format(a.date));
+                if (a.date != null) toolTip.add(a.formattedDate);
                 else toolTip.add("Unknown");
                 drawHoveringText(toolTip, x, y, fontRendererObj);
             }
