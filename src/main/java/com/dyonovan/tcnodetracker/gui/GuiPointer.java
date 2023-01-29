@@ -1,9 +1,5 @@
 package com.dyonovan.tcnodetracker.gui;
 
-import com.dyonovan.tcnodetracker.TCNodeTracker;
-import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
-import com.dyonovan.tcnodetracker.lib.Constants;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -13,8 +9,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+
 import org.lwjgl.opengl.GL11;
+
 import thaumcraft.api.IGoggles;
+
+import com.dyonovan.tcnodetracker.TCNodeTracker;
+import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
+import com.dyonovan.tcnodetracker.lib.Constants;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class GuiPointer extends Gui {
 
@@ -35,8 +38,7 @@ public class GuiPointer extends Gui {
         final int arrowWidth = 64;
         final int arrowHeight = 64;
 
-        if (event.isCancelable()
-                || event.type != ElementType.EXPERIENCE
+        if (event.isCancelable() || event.type != ElementType.EXPERIENCE
                 || !TCNodeTracker.doGui
                 || this.mc.thePlayer.inventory.armorItemInSlot(3) == null) {
             return;
@@ -46,7 +48,8 @@ public class GuiPointer extends Gui {
             return;
         }
 
-        double direction = (Math.toDegrees(Math.atan2(
+        double direction = (Math.toDegrees(
+                Math.atan2(
                         TCNodeTracker.xMarker - this.mc.thePlayer.posX,
                         TCNodeTracker.zMarker - this.mc.thePlayer.posZ)))
                 + this.mc.thePlayer.rotationYaw;
@@ -72,12 +75,10 @@ public class GuiPointer extends Gui {
         tl.draw();
         GL11.glPopMatrix();
 
-        int distancePL = (int) Math.round(
-                this.mc.thePlayer.getDistance(TCNodeTracker.xMarker, mc.thePlayer.posY, TCNodeTracker.zMarker));
-        String dirY = mc.thePlayer.posY > TCNodeTracker.yMarker
-                ? StatCollector.translateToLocal("str.below.name")
-                : mc.thePlayer.posY == TCNodeTracker.yMarker
-                        ? StatCollector.translateToLocal("str.level.name")
+        int distancePL = (int) Math
+                .round(this.mc.thePlayer.getDistance(TCNodeTracker.xMarker, mc.thePlayer.posY, TCNodeTracker.zMarker));
+        String dirY = mc.thePlayer.posY > TCNodeTracker.yMarker ? StatCollector.translateToLocal("str.below.name")
+                : mc.thePlayer.posY == TCNodeTracker.yMarker ? StatCollector.translateToLocal("str.level.name")
                         : StatCollector.translateToLocal("str.above.name");
         String blocks = Integer.toString(distancePL) + StatCollector.translateToLocal("str.blocks.name");
         int color = dirY.equals("Below") ? Constants.RED : dirY.equals("Level") ? Constants.WHITE : Constants.GREEN;

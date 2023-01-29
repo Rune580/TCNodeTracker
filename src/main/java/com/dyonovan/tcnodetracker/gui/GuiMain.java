@@ -1,11 +1,7 @@
 package com.dyonovan.tcnodetracker.gui;
 
-import com.dyonovan.tcnodetracker.TCNodeTracker;
-import com.dyonovan.tcnodetracker.bindings.KeyBindings;
-import com.dyonovan.tcnodetracker.lib.*;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.*;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -13,14 +9,22 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldProvider;
 import net.minecraftforge.common.DimensionManager;
+
 import org.lwjgl.opengl.GL11;
+
+import com.dyonovan.tcnodetracker.TCNodeTracker;
+import com.dyonovan.tcnodetracker.bindings.KeyBindings;
+import com.dyonovan.tcnodetracker.lib.*;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiMain extends GuiScreen {
 
     private static final ResourceLocation nodes = new ResourceLocation("tcnodetracker:textures/gui/nodes.png");
-    private static final ResourceLocation smallArrow =
-            new ResourceLocation("tcnodetracker:textures/gui/small_arrows.png");
+    private static final ResourceLocation smallArrow = new ResourceLocation(
+            "tcnodetracker:textures/gui/small_arrows.png");
 
     public static ArrayList<AspectLoc> aspectList = new ArrayList<>();
     private int display, start, low, high;
@@ -59,14 +63,14 @@ public class GuiMain extends GuiScreen {
                 }
             } else {
                 try {
-                    TCNodeTracker.dims.add(
-                            new DimList(i, DimensionManager.createProviderFor(i).getDimensionName()));
+                    TCNodeTracker.dims.add(new DimList(i, DimensionManager.createProviderFor(i).getDimensionName()));
                 } catch (Throwable t) {
                     TCNodeTracker.dims.add(new DimList(i, Integer.toString(i)));
                 }
             }
         }
         Collections.sort(TCNodeTracker.dims, new Comparator<DimList>() {
+
             @Override
             public int compare(DimList o1, DimList o2) {
                 return o1.dimID - o2.dimID;
@@ -85,18 +89,30 @@ public class GuiMain extends GuiScreen {
         this.buttonList.clear();
         for (int j = low; j < (high * 2); j += 2) {
 
-            this.buttonList.add(
-                    new GuiButton(j, start + 400, x, 20, 10, StatCollector.translateToLocal("btn.delete.name")));
-            this.buttonList.add(
-                    new GuiButton(j + 1, start + 370, x, 30, 10, StatCollector.translateToLocal("btn.mark.name")));
+            this.buttonList
+                    .add(new GuiButton(j, start + 400, x, 20, 10, StatCollector.translateToLocal("btn.delete.name")));
+            this.buttonList
+                    .add(new GuiButton(j + 1, start + 370, x, 30, 10, StatCollector.translateToLocal("btn.mark.name")));
 
             x += 14;
         }
 
-        this.buttonList.add(new GuiButton(
-                buttonList.size(), start + 350, 5, 70, 20, StatCollector.translateToLocal("btn.cleararrow.name")));
-        this.buttonList.add(new GuiButton(
-                buttonList.size(), start + 350, 27, 70, 20, StatCollector.translateToLocal("btn.config.name")));
+        this.buttonList.add(
+                new GuiButton(
+                        buttonList.size(),
+                        start + 350,
+                        5,
+                        70,
+                        20,
+                        StatCollector.translateToLocal("btn.cleararrow.name")));
+        this.buttonList.add(
+                new GuiButton(
+                        buttonList.size(),
+                        start + 350,
+                        27,
+                        70,
+                        20,
+                        StatCollector.translateToLocal("btn.config.name")));
         this.updateScreen();
     }
 
@@ -119,8 +135,7 @@ public class GuiMain extends GuiScreen {
                     if (TCNodeTracker.nodelist.get(k).x == aspectList.get(low + i).x
                             && TCNodeTracker.nodelist.get(k).y == aspectList.get(low + i).y
                             && TCNodeTracker.nodelist.get(k).z == aspectList.get(low + i).z) {
-                        if (TCNodeTracker.doGui
-                                && TCNodeTracker.xMarker == aspectList.get(low + i).x
+                        if (TCNodeTracker.doGui && TCNodeTracker.xMarker == aspectList.get(low + i).x
                                 && TCNodeTracker.yMarker == aspectList.get(low + i).y
                                 && TCNodeTracker.zMarker == aspectList.get(low + i).z) {
                             TCNodeTracker.doGui = false;
@@ -195,51 +210,51 @@ public class GuiMain extends GuiScreen {
             } else if (mouseX >= w + 172 && mouseX <= w + 203 && mouseY >= 3 && mouseY <= 35) {
                 currentAspect = Constants.EARTH;
                 sortNodes(Constants.DISTANCE);
-            } else if (mouseX >= (this.width - 50) / 2
-                    && mouseX <= ((this.width - 50) / 2) + 15
+            } else if (mouseX >= (this.width - 50) / 2 && mouseX <= ((this.width - 50) / 2) + 15
                     && mouseY >= 210
                     && mouseY <= 227
                     && low > 0) {
-                low -= 1;
-                high -= 1;
-            } else if (mouseX >= (this.width + 32) / 2
-                    && mouseX <= ((this.width + 32) / 2) + 17
-                    && mouseY >= 210
-                    && mouseY <= 227
-                    && high != aspectList.size()) {
-                low += 1;
-                high += 1;
-            } else if (mouseX >= start && mouseX <= start + 17 && mouseY >= 209 && mouseY <= 226) {
-                if (dimIndex == 0) {
-                    dimIndex = TCNodeTracker.dims.size() - 1;
-                } else {
-                    dimIndex -= 1;
-                }
-                dimID = TCNodeTracker.dims.get(dimIndex).dimID;
-                dimFunction();
-            } else if (mouseX >= start + 102 && mouseX <= start + 119 && mouseY >= 209 && mouseY <= 226) {
-                if (dimIndex < TCNodeTracker.dims.size() - 1) {
-                    dimIndex += 1;
-                } else {
-                    dimIndex = 0;
-                }
-                dimID = TCNodeTracker.dims.get(dimIndex).dimID;
-                dimFunction();
-            } else if (isInBounds(mouseX, mouseY, start + 2, 55, start + 20, 65)) {
-                sortNodes(Constants.DISTANCE);
-            } else if (isInBounds(mouseX, mouseY, start + 188, 55, start + 208, 65)) {
-                sortNodes(Constants.AIR);
-            } else if (isInBounds(mouseX, mouseY, start + 214, 55, start + 238, 65)) {
-                sortNodes(Constants.WATER);
-            } else if (isInBounds(mouseX, mouseY, start + 246, 55, start + 270, 65)) {
-                sortNodes(Constants.FIRE);
-            } else if (isInBounds(mouseX, mouseY, start + 278, 55, start + 302, 65)) {
-                sortNodes(Constants.ORDER);
-            } else if (isInBounds(mouseX, mouseY, start + 310, 55, start + 334, 65)) {
-                sortNodes(Constants.ENTROPY);
-            } else if (isInBounds(mouseX, mouseY, start + 342, 55, start + 372, 65)) {
-                sortNodes(Constants.EARTH);
-            }
+                        low -= 1;
+                        high -= 1;
+                    } else
+                if (mouseX >= (this.width + 32) / 2 && mouseX <= ((this.width + 32) / 2) + 17
+                        && mouseY >= 210
+                        && mouseY <= 227
+                        && high != aspectList.size()) {
+                            low += 1;
+                            high += 1;
+                        } else
+                    if (mouseX >= start && mouseX <= start + 17 && mouseY >= 209 && mouseY <= 226) {
+                        if (dimIndex == 0) {
+                            dimIndex = TCNodeTracker.dims.size() - 1;
+                        } else {
+                            dimIndex -= 1;
+                        }
+                        dimID = TCNodeTracker.dims.get(dimIndex).dimID;
+                        dimFunction();
+                    } else if (mouseX >= start + 102 && mouseX <= start + 119 && mouseY >= 209 && mouseY <= 226) {
+                        if (dimIndex < TCNodeTracker.dims.size() - 1) {
+                            dimIndex += 1;
+                        } else {
+                            dimIndex = 0;
+                        }
+                        dimID = TCNodeTracker.dims.get(dimIndex).dimID;
+                        dimFunction();
+                    } else if (isInBounds(mouseX, mouseY, start + 2, 55, start + 20, 65)) {
+                        sortNodes(Constants.DISTANCE);
+                    } else if (isInBounds(mouseX, mouseY, start + 188, 55, start + 208, 65)) {
+                        sortNodes(Constants.AIR);
+                    } else if (isInBounds(mouseX, mouseY, start + 214, 55, start + 238, 65)) {
+                        sortNodes(Constants.WATER);
+                    } else if (isInBounds(mouseX, mouseY, start + 246, 55, start + 270, 65)) {
+                        sortNodes(Constants.FIRE);
+                    } else if (isInBounds(mouseX, mouseY, start + 278, 55, start + 302, 65)) {
+                        sortNodes(Constants.ORDER);
+                    } else if (isInBounds(mouseX, mouseY, start + 310, 55, start + 334, 65)) {
+                        sortNodes(Constants.ENTROPY);
+                    } else if (isInBounds(mouseX, mouseY, start + 342, 55, start + 372, 65)) {
+                        sortNodes(Constants.EARTH);
+                    }
         }
     }
 
@@ -308,22 +323,23 @@ public class GuiMain extends GuiScreen {
             else compound.put(aspect, amount);
         }
 
-        aspectList.add(new AspectLoc(
-                nodes.x,
-                nodes.y,
-                nodes.z,
-                nodes.dim,
-                nodes.date,
-                (int) Math.round(mc.thePlayer.getDistance(nodes.x, mc.thePlayer.posY, nodes.z)),
-                nodes.type,
-                nodes.mod,
-                air,
-                water,
-                fire,
-                order,
-                entropy,
-                earth,
-                compound));
+        aspectList.add(
+                new AspectLoc(
+                        nodes.x,
+                        nodes.y,
+                        nodes.z,
+                        nodes.dim,
+                        nodes.date,
+                        (int) Math.round(mc.thePlayer.getDistance(nodes.x, mc.thePlayer.posY, nodes.z)),
+                        nodes.type,
+                        nodes.mod,
+                        air,
+                        water,
+                        fire,
+                        order,
+                        entropy,
+                        earth,
+                        compound));
     }
 
     public void drawScreen(int x, int y, float f) {
@@ -332,22 +348,25 @@ public class GuiMain extends GuiScreen {
         drawDefaultBackground();
 
         this.fontRendererObj.drawString(
-                dimName, start + 20 + (80 - this.fontRendererObj.getStringWidth(dimName)) / 2, 214, Constants.WHITE);
+                dimName,
+                start + 20 + (80 - this.fontRendererObj.getStringWidth(dimName)) / 2,
+                214,
+                Constants.WHITE);
 
         String s1 = StatCollector.translateToLocal("str.instruction.name");
-        this.fontRendererObj.drawString(
-                s1, this.width / 2 - this.fontRendererObj.getStringWidth(s1) / 2, 40, Constants.WHITE);
+        this.fontRendererObj
+                .drawString(s1, this.width / 2 - this.fontRendererObj.getStringWidth(s1) / 2, 40, Constants.WHITE);
 
         drawRect(start, 50, start + display, 52, -9408400);
         drawRect(start, 64, start + display, 66, -9408400);
 
-        this.fontRendererObj.drawString(
-                StatCollector.translateToLocal("str.distance.name"), start + 2, 55, Constants.WHITE);
+        this.fontRendererObj
+                .drawString(StatCollector.translateToLocal("str.distance.name"), start + 2, 55, Constants.WHITE);
         this.fontRendererObj.drawString("X", start + 50, 55, Constants.WHITE);
         this.fontRendererObj.drawString("Y", start + 80, 55, Constants.WHITE);
         this.fontRendererObj.drawString("Z", start + 110, 55, Constants.WHITE);
-        this.fontRendererObj.drawString(
-                StatCollector.translateToLocal("str.type.name"), start + 130, 55, Constants.WHITE);
+        this.fontRendererObj
+                .drawString(StatCollector.translateToLocal("str.type.name"), start + 130, 55, Constants.WHITE);
         s1 = "Aer  Aqua  Ignis  Ordo  Perd  Terra";
         this.fontRendererObj.drawString(s1, start + 178, 55, Constants.WHITE);
 
@@ -366,36 +385,36 @@ public class GuiMain extends GuiScreen {
             this.fontRendererObj.drawString(s2, start + (83 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             s2 = Integer.toString(a.z);
-            this.fontRendererObj.drawString(
-                    s2, start + (112 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
+            this.fontRendererObj
+                    .drawString(s2, start + (112 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             s2 = a.type.substring(0, 1);
-            this.fontRendererObj.drawString(
-                    s2, start + (142 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
+            this.fontRendererObj
+                    .drawString(s2, start + (142 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             s2 = a.hasAer > 0 ? Integer.toString(a.hasAer) : "";
-            this.fontRendererObj.drawString(
-                    s2, start + (185 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
+            this.fontRendererObj
+                    .drawString(s2, start + (185 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             s2 = a.hasAqua > 0 ? Integer.toString(a.hasAqua) : "";
-            this.fontRendererObj.drawString(
-                    s2, start + (216 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
+            this.fontRendererObj
+                    .drawString(s2, start + (216 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             s2 = a.hasIgnis > 0 ? Integer.toString(a.hasIgnis) : "";
-            this.fontRendererObj.drawString(
-                    s2, start + (248 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
+            this.fontRendererObj
+                    .drawString(s2, start + (248 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             s2 = a.hasOrdo > 0 ? Integer.toString(a.hasOrdo) : "";
-            this.fontRendererObj.drawString(
-                    s2, start + (280 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
+            this.fontRendererObj
+                    .drawString(s2, start + (280 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             s2 = a.hasPerdito > 0 ? Integer.toString(a.hasPerdito) : "";
-            this.fontRendererObj.drawString(
-                    s2, start + (312 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
+            this.fontRendererObj
+                    .drawString(s2, start + (312 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             s2 = a.hasTerra > 0 ? Integer.toString(a.hasTerra) : "";
-            this.fontRendererObj.drawString(
-                    s2, start + (348 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
+            this.fontRendererObj
+                    .drawString(s2, start + (348 - (this.fontRendererObj.getStringWidth(s2) / 2)), l, color);
 
             GL11.glPushMatrix();
             GL11.glDisable(GL11.GL_LIGHTING);
@@ -422,11 +441,19 @@ public class GuiMain extends GuiScreen {
                     toolTip.add("None");
                 }
                 // toolTip.add("\u00a7" + Integer.toHexString(2) + "Node Type");
-                toolTip.add(StatCollector.translateToLocal("\u00a7" + Integer.toHexString(2) + "Type: " + "\u00a7"
-                        + Integer.toHexString(15) + StatCollector.translateToLocal("nodetype." + a.type + ".name")));
-                if (a.mod != null && !a.mod.equals("BLANK"))
-                    toolTip.add("\u00a7" + Integer.toHexString(4) + "State: " + "\u00a7" + Integer.toHexString(15)
-                            + StatCollector.translateToLocal("nodemod." + a.mod + ".name"));
+                toolTip.add(
+                        StatCollector.translateToLocal(
+                                "\u00a7" + Integer.toHexString(2)
+                                        + "Type: "
+                                        + "\u00a7"
+                                        + Integer.toHexString(15)
+                                        + StatCollector.translateToLocal("nodetype." + a.type + ".name")));
+                if (a.mod != null && !a.mod.equals("BLANK")) toolTip.add(
+                        "\u00a7" + Integer.toHexString(4)
+                                + "State: "
+                                + "\u00a7"
+                                + Integer.toHexString(15)
+                                + StatCollector.translateToLocal("nodemod." + a.mod + ".name"));
                 drawHoveringText(toolTip, x, y, fontRendererObj);
             } else if (isInBounds(x, y, start + 2, l - 5, start + 40, l + 8)) {
                 List<String> toolTip = new ArrayList<>();

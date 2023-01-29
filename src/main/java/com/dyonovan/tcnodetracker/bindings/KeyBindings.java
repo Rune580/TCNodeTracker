@@ -1,8 +1,10 @@
 package com.dyonovan.tcnodetracker.bindings;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
 import net.minecraft.client.settings.KeyBinding;
+
 import org.lwjgl.input.Keyboard;
+
+import cpw.mods.fml.client.registry.ClientRegistry;
 
 public class KeyBindings {
 

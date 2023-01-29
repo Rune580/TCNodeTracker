@@ -17,25 +17,11 @@ public class AspectLoc {
     public final Instant date;
     public final String formattedDate;
 
-    private static final DateTimeFormatter DATE_FORMATTER =
-            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(Locale.getDefault());
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+            .withLocale(Locale.getDefault());
 
-    public AspectLoc(
-            int x,
-            int y,
-            int z,
-            int dimID,
-            Instant date,
-            int distance,
-            String type,
-            String mod,
-            int hasAer,
-            int hasAqua,
-            int hasIgnis,
-            int hasOrdo,
-            int hasPerdito,
-            int hasTerra,
-            HashMap<String, Integer> compound) {
+    public AspectLoc(int x, int y, int z, int dimID, Instant date, int distance, String type, String mod, int hasAer,
+            int hasAqua, int hasIgnis, int hasOrdo, int hasPerdito, int hasTerra, HashMap<String, Integer> compound) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -61,6 +47,7 @@ public class AspectLoc {
 
     public static Comparator<AspectLoc> getDistComparator() {
         return new Comparator<AspectLoc>() {
+
             @Override
             public int compare(AspectLoc o1, AspectLoc o2) {
                 return o1.distance - o2.distance;
@@ -70,6 +57,7 @@ public class AspectLoc {
 
     public static Comparator<AspectLoc> getAerComparator() {
         return new Comparator<AspectLoc>() {
+
             @Override
             public int compare(AspectLoc o1, AspectLoc o2) {
                 return o1.hasAer - o2.hasAer;
@@ -79,6 +67,7 @@ public class AspectLoc {
 
     public static Comparator<AspectLoc> getAquaComparator() {
         return new Comparator<AspectLoc>() {
+
             @Override
             public int compare(AspectLoc o1, AspectLoc o2) {
                 return o1.hasAqua - o2.hasAqua;
@@ -88,6 +77,7 @@ public class AspectLoc {
 
     public static Comparator<AspectLoc> getIgnisComparator() {
         return new Comparator<AspectLoc>() {
+
             @Override
             public int compare(AspectLoc o1, AspectLoc o2) {
                 return o1.hasIgnis - o2.hasIgnis;
@@ -97,6 +87,7 @@ public class AspectLoc {
 
     public static Comparator<AspectLoc> getOrdoComparator() {
         return new Comparator<AspectLoc>() {
+
             @Override
             public int compare(AspectLoc o1, AspectLoc o2) {
                 return o1.hasOrdo - o2.hasOrdo;
@@ -106,6 +97,7 @@ public class AspectLoc {
 
     public static Comparator<AspectLoc> getPerdComparator() {
         return new Comparator<AspectLoc>() {
+
             @Override
             public int compare(AspectLoc o1, AspectLoc o2) {
                 return o1.hasPerdito - o2.hasPerdito;
@@ -115,6 +107,7 @@ public class AspectLoc {
 
     public static Comparator<AspectLoc> getTerraComparator() {
         return new Comparator<AspectLoc>() {
+
             @Override
             public int compare(AspectLoc o1, AspectLoc o2) {
                 return o1.hasTerra - o2.hasTerra;

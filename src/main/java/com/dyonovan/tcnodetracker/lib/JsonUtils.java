@@ -1,5 +1,13 @@
 package com.dyonovan.tcnodetracker.lib;
 
+import java.io.*;
+import java.lang.reflect.Type;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
+import java.util.List;
+
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,19 +19,13 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
-import java.io.*;
-import java.lang.reflect.Type;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.FormatStyle;
-import java.util.List;
 
 public class JsonUtils {
 
     private static boolean needsSaving = false;
 
     private static class InstantSerializer implements JsonSerializer<Instant> {
+
         @Override
         public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
             return new JsonPrimitive(DateTimeFormatter.ISO_INSTANT.format(src));
@@ -31,6 +33,7 @@ public class JsonUtils {
     }
 
     private static class InstantDeserializer implements JsonDeserializer<Instant> {
+
         @Override
         public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
@@ -52,9 +55,7 @@ public class JsonUtils {
 
     public static void writeJson() {
 
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(Instant.class, new InstantSerializer())
+        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Instant.class, new InstantSerializer())
                 .create();
         String json = gson.toJson(TCNodeTracker.nodelist);
 
@@ -72,9 +73,7 @@ public class JsonUtils {
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(TCNodeTracker.hostName + "/nodes.json"));
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(Instant.class, new InstantDeserializer())
-                    .create();
+            Gson gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantDeserializer()).create();
             // TCNodeTracker.nodelist = gson.fromJson(br, TCNodeTracker.nodelist.getClass());
             needsSaving = false;
             TCNodeTracker.nodelist = gson.fromJson(br, new TypeToken<List<NodeList>>() {}.getType());

@@ -1,8 +1,5 @@
 package com.dyonovan.tcnodetracker.gui;
 
-import com.dyonovan.tcnodetracker.bindings.KeyBindings;
-import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
-import com.dyonovan.tcnodetracker.lib.Constants;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -10,7 +7,12 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Property;
+
 import org.lwjgl.opengl.GL11;
+
+import com.dyonovan.tcnodetracker.bindings.KeyBindings;
+import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
+import com.dyonovan.tcnodetracker.lib.Constants;
 
 public class GuiConfig extends GuiScreen {
 
@@ -54,23 +56,54 @@ public class GuiConfig extends GuiScreen {
 
         buttonList.clear();
 
-        buttonList.add(new GuiButton(
-                UP, (width / 2) - 17, height - 75, 35, 20, StatCollector.translateToLocal("btn.up.name")));
-        buttonList.add(new GuiButton(
-                DOWN, (width / 2) - 17, height - 25, 35, 20, StatCollector.translateToLocal("btn.down.name")));
-        buttonList.add(new GuiButton(
-                LEFT, (width / 2) - 61, height - 50, 35, 20, StatCollector.translateToLocal("btn.left.name")));
-        buttonList.add(new GuiButton(
-                RIGHT, (width / 2) + 26, height - 50, 35, 20, StatCollector.translateToLocal("btn.right.name")));
-        buttonList.add(new GuiButton(
-                RESET, (width / 2) - 17, height - 50, 35, 20, StatCollector.translateToLocal("btn.reset.name")));
-        buttonList.add(new GuiButton(
-                ARROW_TYPE,
-                (width / 4) - 70,
-                height - 50,
-                70,
-                20,
-                StatCollector.translateToLocal("btn.arrowtype.name")));
+        buttonList.add(
+                new GuiButton(
+                        UP,
+                        (width / 2) - 17,
+                        height - 75,
+                        35,
+                        20,
+                        StatCollector.translateToLocal("btn.up.name")));
+        buttonList.add(
+                new GuiButton(
+                        DOWN,
+                        (width / 2) - 17,
+                        height - 25,
+                        35,
+                        20,
+                        StatCollector.translateToLocal("btn.down.name")));
+        buttonList.add(
+                new GuiButton(
+                        LEFT,
+                        (width / 2) - 61,
+                        height - 50,
+                        35,
+                        20,
+                        StatCollector.translateToLocal("btn.left.name")));
+        buttonList.add(
+                new GuiButton(
+                        RIGHT,
+                        (width / 2) + 26,
+                        height - 50,
+                        35,
+                        20,
+                        StatCollector.translateToLocal("btn.right.name")));
+        buttonList.add(
+                new GuiButton(
+                        RESET,
+                        (width / 2) - 17,
+                        height - 50,
+                        35,
+                        20,
+                        StatCollector.translateToLocal("btn.reset.name")));
+        buttonList.add(
+                new GuiButton(
+                        ARROW_TYPE,
+                        (width / 4) - 70,
+                        height - 50,
+                        70,
+                        20,
+                        StatCollector.translateToLocal("btn.arrowtype.name")));
         buttonList.add(arrowSmall);
         buttonList.add(arrowLarge);
 
@@ -211,8 +244,7 @@ public class GuiConfig extends GuiScreen {
 
         final int clickRadius = 32;
 
-        if (mouseX >= baseX + ConfigHandler.arrowX - clickRadius
-                && mouseX <= baseX + ConfigHandler.arrowX + clickRadius
+        if (mouseX >= baseX + ConfigHandler.arrowX - clickRadius && mouseX <= baseX + ConfigHandler.arrowX + clickRadius
                 && mouseY >= baseY + ConfigHandler.arrowY - clickRadius
                 && mouseY <= baseY + ConfigHandler.arrowY + clickRadius) {
             moving = true;

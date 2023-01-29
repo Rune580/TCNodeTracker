@@ -10,8 +10,8 @@ public class NodeList {
     public int dim, x, y, z;
     public Instant date;
 
-    public NodeList(
-            HashMap<String, Integer> aspect, int dim, String type, String mod, int x, int y, int z, Instant date) {
+    public NodeList(HashMap<String, Integer> aspect, int dim, String type, String mod, int x, int y, int z,
+            Instant date) {
 
         this.aspect = aspect;
         this.dim = dim;

@@ -1,28 +1,30 @@
 package com.dyonovan.tcnodetracker.events;
 
-import com.dyonovan.tcnodetracker.TCNodeTracker;
-import com.dyonovan.tcnodetracker.lib.JsonUtils;
-import com.dyonovan.tcnodetracker.lib.NodeList;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.nodes.INode;
 
+import com.dyonovan.tcnodetracker.TCNodeTracker;
+import com.dyonovan.tcnodetracker.lib.JsonUtils;
+import com.dyonovan.tcnodetracker.lib.NodeList;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
 public class RightClickEvent {
 
-    @SuppressWarnings({"unchecked", "unused"})
+    @SuppressWarnings({ "unchecked", "unused" })
     @SubscribeEvent
     public void playerRightClick(PlayerInteractEvent event) {
 
-        if (event.isCanceled()
-                || !event.entityPlayer.worldObj.isRemote
+        if (event.isCanceled() || !event.entityPlayer.worldObj.isRemote
                 || event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK
                 || event.entityPlayer.inventory.getCurrentItem() == null) {
             return;
@@ -68,8 +70,8 @@ public class RightClickEvent {
             if (TCNodeTracker.nodelist == null) {
                 TCNodeTracker.nodelist = new ArrayList<>();
             }
-            TCNodeTracker.nodelist.add(
-                    new NodeList(hm, dim, nodeType, nodeMod, event.x, event.y, event.z, Instant.now()));
+            TCNodeTracker.nodelist
+                    .add(new NodeList(hm, dim, nodeType, nodeMod, event.x, event.y, event.z, Instant.now()));
             JsonUtils.writeJson();
         }
     }
