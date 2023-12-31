@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import thaumcraft.api.aspects.Aspect;
@@ -62,6 +63,9 @@ public class RightClickEvent {
                         n.type = nodeType;
                         n.mod = nodeMod;
                         n.date = Instant.now();
+                        MinecraftForge.EVENT_BUS
+                                .post(new NodeNotificationEvent.NodeListUpdated(n));
+
                         JsonUtils.writeJson();
                         return;
                     }
@@ -70,8 +74,12 @@ public class RightClickEvent {
             if (TCNodeTracker.nodelist == null) {
                 TCNodeTracker.nodelist = new ArrayList<>();
             }
-            TCNodeTracker.nodelist
-                    .add(new NodeList(hm, dim, nodeType, nodeMod, event.x, event.y, event.z, Instant.now()));
+
+            NodeList node = new NodeList(hm, dim, nodeType, nodeMod, event.x, event.y, event.z, Instant.now());
+            TCNodeTracker.nodelist.add(node);
+            MinecraftForge.EVENT_BUS
+                .post(new NodeNotificationEvent.NodeListUpdated(node));
+
             JsonUtils.writeJson();
         }
     }
