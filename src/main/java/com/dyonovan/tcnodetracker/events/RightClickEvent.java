@@ -63,8 +63,7 @@ public class RightClickEvent {
                         n.type = nodeType;
                         n.mod = nodeMod;
                         n.date = Instant.now();
-                        MinecraftForge.EVENT_BUS
-                                .post(new NodeNotificationEvent.NodeListUpdated(n));
+                        MinecraftForge.EVENT_BUS.post(new NodeNotificationEvent.NodeListUpdated(n));
 
                         JsonUtils.writeJson();
                         return;
@@ -77,8 +76,7 @@ public class RightClickEvent {
 
             NodeList node = new NodeList(hm, dim, nodeType, nodeMod, event.x, event.y, event.z, Instant.now());
             TCNodeTracker.nodelist.add(node);
-            MinecraftForge.EVENT_BUS
-                .post(new NodeNotificationEvent.NodeListUpdated(node));
+            MinecraftForge.EVENT_BUS.post(new NodeNotificationEvent.NodeListUpdated(node));
 
             JsonUtils.writeJson();
         }

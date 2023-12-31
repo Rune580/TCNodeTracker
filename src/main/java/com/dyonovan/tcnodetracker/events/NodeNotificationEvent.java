@@ -9,11 +9,11 @@ public class NodeNotificationEvent extends Event {
 
         private final NodeList nodeList;
 
-        public NodeListUpdated(NodeList nodeList){
+        public NodeListUpdated(NodeList nodeList) {
             this.nodeList = nodeList;
         }
 
-        public NodeList getNodeList(){
+        public NodeList getNodeList() {
             return nodeList;
         }
     }
